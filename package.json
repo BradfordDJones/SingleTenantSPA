@@ -10,9 +10,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@azure/identity": "^4.4.1",
     "@azure/msal-browser": "^3.23.0",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
     "express": "^4.19.2",
+    "isomorphic-fetch": "^3.0.0",
     "morgan": "^1.10.0",
+    "readline-sync": "^1.4.10",
     "yargs": "^17.7.2"
   }
 }

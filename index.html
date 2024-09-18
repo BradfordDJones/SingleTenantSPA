@@ -1,23 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equive="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+    <link rel="stylesheet" type="text/css" href="./styles/styles.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
-        <script src="https://alcdn.msauth.net/browser/2.13.1/js/msal-browser.js"
-        integrity="sha384-7hwr87O1w6buPsX92CwuRaz/wQzachgOEq+iLHv0ESavynv6rbYwKImSl7wUW3wV"
-        crossorigin="anonymous"></script>
-        <!--https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/cdn-usage.md-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        rel="stylesheet" crossorigin="anonymous">
-        <link rel="shortcut icon" href="https://alcdn.msauth.net/browser/2.13.1/assets/img/favicon.ico">
-
-        <div class="container">
+        <div class="container d-flex justify-content-center">
         <div class="row">
             <div class="col-md-12">
                 <div class="card text-center">
@@ -32,82 +23,9 @@
             </div>
         </div>
         </div>
-
-        <script>
-            let username = '';
-            const msalConfig = {
-                auth: {
-                    clientId: '87b255b6-7a08-4a34-861b-0700d114d35a',
-                    authority: 'https://login.microsoftonline.com/497c58e6-5262-40f2-a2f7-a115f562539d',
-                    redirectUri: 'http://localhost:3000'
-                },
-                cache: {
-                    cacheLocation: 'sessionStorage',
-                    storeAuthStateInCookie: false
-                }
-            }
-            const msalObj = new msal.PublicClientApplication(msalConfig);
-
-            function Signout() {
-                const logoutReq = {
-                    account: msalObj.getAccountByUsername(username)
-                }
-                msalObj.logoutRedirect(logoutReq);
-
-                document.getElementById("logout").style.display = 'none';
-                document.getElementById("login").style.display = 'block';
-
-            }
-            
-            function Signin() {
-                const loginScope = {
-                    scope: ['User.Read']
-                }
-
-                msalObj.loginRedirect(loginScope);
-            }
-
-            msalObj.handleRedirectPromise().then((tokenResponse) => {
-                if (tokenResponse !== null) {
-                    console.log(tokenResponse);
-                    username = tokenResponse.account.username;
-                    document.getElementById("logout").style.display = 'block';
-                    document.getElementById("login").style.display = 'none';
-                }
-                else {
-                    selectAccount();
-                }
-            }
-        ).catch((error) => {
-                console.error(error);
-            });
-
-        function selectAccount() {
-            const accounts = msalObj.getAllAccounts();
-            if (accounts.length === 0) {
-                return;
-            }
-            else if (accounts.length === 1) {
-                username = accounts[0].username;
-                document.getElementById("logout").style.display = 'block';
-                document.getElementById("login").style.display = 'none';
-            } else if (accounts.length > 1) {
-                document.getElementById("logout").style.display = 'block';
-                document.getElementById("login").style.display = 'none';
-                let htmlStr = '';
-                accounts.forEach((account, index) => {
-                    htmlStr += `<option value="${index}">${account.username}</option>`;
-                });
-                htmlStr = `<select id="accountSelect">${htmlStr}</select>`;
-                document.getElementById("accountList").innerHTML = htmlStr;
-                document.getElementById("accountSelect").addEventListener('change', (e) => {
-                    username = accounts[e.target.value].username;
-                });
-                document.getElementById("accountSelect").selectedIndex = 0;
-                document.getElementById("accountSelect").dispatchEvent(new Event('change'))
-            }
-        }
-        </script>
+        <script src="https://alcdn.msauth.net/browser/2.13.1/js/msal-browser.js"
+        integrity="sha384-7hwr87O1w6buPsX92CwuRaz/wQzachgOEq+iLHv0ESavynv6rbYwKImSl7wUW3wV"
+        crossorigin="anonymous"></script>
+        <script src="./scripts/script.js"></script>
 </body>
-
 </html>
